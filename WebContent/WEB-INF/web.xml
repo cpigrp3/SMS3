@@ -2,6 +2,15 @@
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
   <display-name>SMS3</display-name>
   <welcome-file-list>
-    <welcome-file>pages/login.jsp</welcome-file>
+    <welcome-file>views/index.jsp</welcome-file>
   </welcome-file-list>
+  <servlet>
+	<servlet-name>serv</servlet-name>
+	<servlet-class>com.servlet.ServletMenu</servlet-class> 
+  </servlet>
+  
+  <servlet-mapping>
+	<servlet-name>serv</servlet-name>
+	<url-pattern>/action</url-pattern>  
+   </servlet-mapping>
 </web-app>
