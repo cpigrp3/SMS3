@@ -1,3 +1,3 @@
 <div class="panel-heading">
-  FOOTER
+  <div align="center">2017 Computer Professional Inc.</div>
 </div>

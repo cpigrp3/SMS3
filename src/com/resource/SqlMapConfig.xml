@@ -2,5 +2,10 @@
 <!DOCTYPE sqlMapConfig PUBLIC "-//ibatis.apache.org//DTD SQL Map Config 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
 
 <sqlMapConfig>
-	<!-- <sqlMap resource = "com/dao/ibatis/User.xml" /> -->
+	<sqlMap resource = "com/dao/ibatis/Supplies.xml" />
+	<sqlMap resource = "com/dao/ibatis/SupplyTypes.xml" />
+	<sqlMap resource = "com/dao/ibatis/User.xml" />
+	<sqlMap resource = "com/dao/ibatis/Homepage.xml" />
+	<sqlMap resource = "com/dao/ibatis/Stocks.xml" />
+	<sqlMap resource = "com/dao/ibatis/SupplyIssuance.xml" />
 </sqlMapConfig>

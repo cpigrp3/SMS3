@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sqlmap-2.dtd">
+<sqlMap namespace="Supplies">
+		<!-- for adding new record -->
+	<procedure id="addSupplies" parameterClass="java.util.Map">
+		BEGIN
+			INSERT INTO supplies3
+					(SUPPLY_ID, SUPPLY_TYPE_ID, ITEM_NAME, ITEM_UNIT, OBSOLETE_TAG, LOCATION, REORDER_LEVEL, ACTUAL_COUNT, REMARKS, 
+					DATE_ADDED, LAST_USER, LAST_UPDATE)
+			VALUES(supp_id_seq_grp3.nextVal, #supplyTypeId#, #itemName#, #itemUnit#, #obsoleteTag#, #location#, #reorderLevel#, 0, #remarks#,
+					trunc(SYSDATE), #lastUser#, trunc(SYSDATE));
+		END;
+	</procedure>
+		<!-- for updating existing records -->
+	<procedure id="updateSupplies" parameterClass="java.util.Map">
+		BEGIN
+			UPDATE supplies3
+			   SET ITEM_NAME = #itemName#, 
+			       ITEM_UNIT = #itemUnit#, 
+			       OBSOLETE_TAG = #obsoleteTag#, 
+			       LOCATION = #location#, 
+			       REORDER_LEVEL = #reorderLevel#, 
+			       REMARKS = #remarks#, 
+			       LAST_USER = #lastUser#, 
+			       LAST_UPDATE = trunc(SYSDATE)				   
+			 WHERE SUPPLY_ID = #supplyId#;
+		END;
+	</procedure>
+	
+		<!-- getting the list from database -->
+	<typeAlias alias="SuppliesClass" type="com.entity.Supplies"/>
+		
+	<resultMap id="allSuppliesMap" class="SuppliesClass">
+		<result column="supply_id" property="supplyId"/>
+		<result column="type_name" property="supplyType"/>
+		<result column="item_name" property="itemName"/>
+		<result column="item_unit" property="itemUnit"/>
+		<result column="obsolete_tag" property="obsoleteTag"/>
+		<result column="location" property="location"/>
+		<result column="reorder_level" property="reorderLevel"/>
+		<result column="actual_count" property="actualCount"/>
+		<result column="remarks" property="remarks"/>
+		<result column="date_added" property="dateAdded"/>
+		<result column="last_user" property="lastUser"/>
+		<result column="last_update" property="lastUpdate"/>
+	</resultMap>
+	
+	<select id="getSupplyList" resultMap="allSuppliesMap">
+		SELECT s.supply_id, t.type_name, s.item_name, s.item_unit, s.obsolete_tag, s.location, s.reorder_level, 
+			   s.actual_count, s.remarks, s.date_added, s.last_user, s.last_update
+		  FROM supplies3 s, supply_types3 t
+		 WHERE s.supply_type_id = t.supply_type_id
+	  ORDER BY s.supply_id
+	</select>
+	
+	<resultMap id="allSuppliesName" class="SuppliesClass">
+		<result column="supply_type_id" property="supplyTypeId"/>
+		<result column="type_name" property="supplyType"/>
+	</resultMap>
+	
+	<select id="getSupplyName" resultMap="allSuppliesName">
+		SELECT supply_type_id, type_name
+		  FROM supply_types3
+	</select>
+	
+	
+</sqlMap>

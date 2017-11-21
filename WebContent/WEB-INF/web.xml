@@ -8,9 +8,65 @@
 	<servlet-name>serv</servlet-name>
 	<servlet-class>com.servlet.ServletMenu</servlet-class> 
   </servlet>
-  
   <servlet-mapping>
 	<servlet-name>serv</servlet-name>
 	<url-pattern>/action</url-pattern>  
    </servlet-mapping>
+   
+   <!-- SUPPLIES MAINTENANCE -->
+   <!-- @author: ABANTE -->
+   <servlet>
+	<servlet-name>servUser</servlet-name>
+	<servlet-class>com.servlet.UserServlet</servlet-class> 
+  </servlet>
+  <servlet-mapping>
+	<servlet-name>servUser</servlet-name>
+	<url-pattern>/servUser</url-pattern>  
+   </servlet-mapping>
+   <!-- END USER MAINTENANCE -->
+   
+   <!-- SUPPLIES MAINTENANCE -->
+   <!-- @author: MAGSINO -->
+   <servlet>
+  	<servlet-name>suppliesservlet</servlet-name>
+  	<servlet-class>com.servlet.SuppliesServlet</servlet-class>	
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>suppliesservlet</servlet-name>
+  	<url-pattern>/supmain</url-pattern>
+  </servlet-mapping>
+  <!-- END SUPPLIES MAINTENANCE -->
+  
+  <!-- SUPPLIES TYPE MAINTENANCE -->
+  <!-- @author: MARCO -->
+  <servlet>
+	<servlet-name>typesserv</servlet-name>
+	<servlet-class>com.servlet.ServletSupplyTypes</servlet-class> 
+  </servlet>
+  
+  <servlet-mapping>
+	<servlet-name>typesserv</servlet-name>
+	<url-pattern>/SupplyTypesMnt</url-pattern>  
+   </servlet-mapping>
+  <!-- END SUPPLIES TYPE MAINTENANCE -->
+  
+  <servlet>
+	<servlet-name>stocksServ</servlet-name>
+	<servlet-class>com.servlet.ServletStocks</servlet-class> 
+  </servlet>
+  
+  <servlet-mapping>
+	<servlet-name>stocksServ</servlet-name>
+	<url-pattern>/stocks</url-pattern>  
+   </servlet-mapping>
+   
+   <servlet>
+	<servlet-name>irserv</servlet-name>
+	<servlet-class>com.servlet.SupplyIssuanceServlet</servlet-class> 
+  </servlet>
+  
+  <servlet-mapping>
+	<servlet-name>irserv</servlet-name>
+	<url-pattern>/irserv</url-pattern>  
+  </servlet-mapping>
 </web-app>

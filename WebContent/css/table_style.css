@@ -1,0 +1,21 @@
+th{
+	background: #337ab7;
+	color: white;
+	font-weight: bold;
+	width: 70px;
+	text-align: center;
+}
+
+tr{
+	height: 30px;
+	font-size: 15px;
+}
+
+td{
+	font-size: 13px;
+	padding: 5px;
+}
+
+.align-right{
+	text-align: right;
+}

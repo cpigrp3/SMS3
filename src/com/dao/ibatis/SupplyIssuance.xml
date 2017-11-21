@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sqlmap-2.dtd">
+
+<sqlMap namespace="SupplyIssuance">
+	<typeAlias alias="DepartmentsClass" type="com.entity.Departments"></typeAlias>
+	<resultMap id="allDepartmentsMap" class="DepartmentsClass">
+		<result column="department_name" property="deptName"></result>
+		<result column="department_id" property="deptId"></result>
+	</resultMap>
+	<select id="getAllDepartments" resultMap="allDepartmentsMap">
+		SELECT department_name, department_id
+		FROM departments
+	</select>
+
+
+	<typeAlias alias="ItemsClass" type="com.entity.Items"></typeAlias>
+	<resultMap id="allItemsMap" class="ItemsClass">
+		<result column="item_name" property="itemName"></result>
+		<result column="supply_id" property="supplyId"></result>
+	</resultMap>
+	<select id="getAllItems" resultMap="allItemsMap">
+		SELECT item_name, supply_id
+		FROM supplies3
+		WHERE obsolete_tag != 'Y'
+	</select>
+	
+	
+	<select id="getActualCount" resultClass="java.lang.Integer">
+		SELECT actual_count
+		FROM supplies3
+		WHERE supply_id = #supplyId#
+	</select>
+	
+	
+	<select id="getReorderLevel" resultClass="java.lang.Integer">
+		SELECT reorder_level
+		FROM supplies3
+		WHERE supply_id = #supplyId#
+	</select>
+	
+	
+	<select id="getQuantity" resultClass="java.lang.Integer">
+		SELECT quantity 
+		FROM issued_supplies3
+		WHERE issue_id = #issueId#
+	</select>
+	
+	
+	<typeAlias alias="IssuedSuppliesClass" type="com.entity.IssuedSupplies"></typeAlias>
+	<resultMap id="issuedSuppliesMap" class="IssuedSuppliesClass">
+		<result column="issue_Id" property="issuedId"></result>
+		<result column="supply_id" property="supplyId"></result>
+		<result column="item_name" property="itemName"></result>
+		<result column="quantity" property="quantity"></result>
+		<result column="requestor" property="requestor"></result>
+		<result column="department_name" property="deptName"></result>
+		<result column="issue_date" property="issueDate"></result>
+		<result column="last_user" property="lastUser"></result>
+		<result column="last_update" property="lastUpdate"></result>
+	</resultMap>
+	<select id="getIssuedSupplies" resultMap="issuedSuppliesMap">
+		SELECT i.issue_id, s.supply_id, s.item_name, i.quantity, i.requestor, d.department_name, i.issue_date, i.last_user, i.last_update
+		FROM departments d, supplies3 s, issued_supplies3 i
+		WHERE i.dept_id = d.department_id
+		AND i.supply_id = s.supply_id
+		ORDER BY i.issue_id
+	</select>
+
+
+	<procedure id="issueReq" parameterClass="java.util.Map">
+		BEGIN
+			INSERT INTO issued_supplies3
+				(issue_id, supply_id, issue_date, requestor, quantity, dept_id, last_user, last_update)
+			VALUES
+				(issue_id_seq_grp3.nextVal, #supplyId#, trunc(sysdate), #requestor#, #quantity#, #deptId#, #lastUser#, trunc(sysdate));
+		END;
+	</procedure>
+	
+	
+	<procedure id="updateReq" parameterClass="java.util.Map">
+		BEGIN
+			UPDATE issued_supplies3 
+			SET quantity = #quantity#,
+				last_user = #lastUser#,
+				last_update = trunc(sysdate)
+			WHERE issue_id = #issueId#;
+		END;
+	</procedure>
+	
+	<procedure id="updateQuantity">
+		BEGIN
+			UPDATE supplies3
+			SET actual_count = #newCount#
+			WHERE supply_id = #supplyId#;
+		END;
+	</procedure>
+	
+</sqlMap>

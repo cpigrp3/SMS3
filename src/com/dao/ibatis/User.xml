@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sqlmap-2.dtd">
+<sqlMap namespace="User">
+	<procedure id="addUser" parameterClass="java.util.Map">
+		BEGIN
+			INSERT INTO SMS_USERS3 (USER_ID,PASSWORD,FIRST_NAME,LAST_NAME,MIDDLE_INITIAL,EMAIL,ACTIVE_TAG,ACCESS_LEVEL,ENTRY_DATE,LAST_LOGIN,LAST_USER)
+		 	VALUES(#USER_ID#,#PASSWORD#,#FIRST_NAME#,#LAST_NAME#,#MIDDLE_INITIAL#,#EMAIL#,#ACTIVE_TAG#,#ACCESS_LEVEL#,trunc(SYSDATE),trunc(SYSDATE),#LAST_USER#);
+		END;
+	</procedure>
+	
+</sqlMap>

@@ -21,13 +21,60 @@ http://www.springframework.org/schema/security http://www.springframework.org/sc
 		<property name = "password" value = "HR" />
 	</bean>
 	
-	<!-- <bean id = "userDao" class = "com.dao.impl.UserDaoImpl" depends-on = "sqlMapClient">
+	<!-- @module: USER MAINTENANCE -->
+	<!-- @author: ABANTE           -->
+	<bean id = "userDao" class = "com.dao.impl.UserDaoImpl" depends-on = "sqlMapClient">
 		<property name = "sqlMapClient" ref = "sqlMapClient"></property>
 	</bean>
 	
 	<bean id = "userService" class = "com.service.impl.UserServiceImpl" depends-on = "userDao">
 		<property name = "userDao" ref = "userDao" />
-	</bean> -->
+	</bean>
 	
-
+	<!-- @module: SUPPLIES MAINTENANCE -->
+	<!-- @author: MAGSINO              -->
+	<bean id = "suppliesDao" class = "com.dao.impl.SuppliesDaoImpl" depends-on = "sqlMapClient">
+		<property name = "sqlMapClient" ref = "sqlMapClient"></property>
+	</bean>
+	
+	<bean id = "suppliesService" class = "com.service.impl.SuppliesServiceImpl" depends-on = "suppliesDao">
+		<property name = "suppliesDao" ref = "suppliesDao" />
+	</bean>
+	
+	<!-- @module: SUPPLIES TYPE MAINTENANCE -->
+	<!-- @author: MARCO                     -->
+	<bean id = "supplyTypesDao" class = "com.dao.impl.SupplyTypesDaoImpl" depends-on = "sqlMapClient">
+		<property name = "sqlMapClient" ref = "sqlMapClient"></property>
+	</bean>
+	
+	<bean id = "supplyTypesService" class = "com.service.impl.SupplyTypesServiceImpl" depends-on = "supplyTypesDao">
+		<property name = "supplyTypesDao" ref = "supplyTypesDao" />
+	</bean>
+	
+	<!-- @module: LOGIN MODULE -->
+	<!-- @author: EMMAN        -->
+	<bean id = "homepageDao" class = "com.dao.impl.HomepageDaoImpl" depends-on = "sqlMapClient">
+		<property name = "sqlMapClient" ref = "sqlMapClient"></property>
+	</bean>
+	<bean id = "homepageService" class = "com.service.impl.HomepageServiceImpl" depends-on = "homepageDao">
+		<property name = "homepageDao" ref = "homepageDao" />
+	</bean>
+	
+	<!-- @module: STOCKS MODULE -->
+	<!-- @author: JAKE          -->
+	 <bean id = "stocksDao" class = "com.dao.impl.StocksDaoImpl" depends-on = "sqlMapClient">
+		<property name = "sqlMapClient" ref = "sqlMapClient"></property>
+	</bean>
+	<bean id = "stocksService" class = "com.service.impl.StocksServiceImpl" depends-on = "stocksDao">
+		<property name = "stocksDao" ref = "stocksDao" />
+	</bean> 
+	
+	
+	<bean id = "supplyIssuanceDao" class = "com.dao.impl.SupplyIssuanceDaoImpl" depends-on = "sqlMapClient">
+		<property name = "sqlMapClient" ref = "sqlMapClient"></property>
+	</bean>
+	
+	<bean id = "supplyIssuanceService" class = "com.service.impl.SupplyIssuanceServiceImpl" depends-on = "supplyIssuanceDao">
+		<property name = "supplyIssuanceDao" ref = "supplyIssuanceDao" />
+	</bean>
 </beans>

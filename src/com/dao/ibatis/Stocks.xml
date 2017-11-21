@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sqlmap-2.dtd">
+<sqlMap namespace="Stock">
+	<typeAlias alias="UserClass" type="com.entity.Stocks" />
+	<resultMap id="allItemMap" class="UserClass">
+		<result column="item_name" property="itemName" />
+		<result column="supply_id" property="suppId" />
+	</resultMap>
+	<select id="getAllItem" resultMap="allItemMap">
+		selecT item_name,supply_id from
+		supplies3
+		where obsolete_tag != 'Y'
+		order by item_name
+	</select>
+	<procedure id="addStock" parameterClass="java.util.Map">
+	BEGIN
+   	INSERT INTO SUPPLIES_STOCKS3 (STOCK_ID,
+    	                             SUPPLY_ID,
+    	                             DATE_ADDED,
+      	                             PURCHASE_DATE,
+    	                             REFERENCE_NO,
+   	                                 QUANTITY,
+    	                             LAST_USER,
+   	                                 LAST_UPDATE)
+        VALUES (STOCKS_ID_SEQ_GRP3.NEXTVAL,
+                #suppId#,
+                TO_DATE (#dateAdd#,'YYYY-MM-DD'),
+                TO_DATE (#purDate#,'YYYY-MM-DD'),
+                #refNo#,
+                #quantity#,
+                #userId#,
+                TRUNC (SYSDATE));
+                
+         UPDATE supplies3
+         SET actual_count = actual_count+#quantity#
+         WHERE supply_id = #suppId#;
+	END;
+	</procedure>
+	
+	<procedure id="updateStock" parameterClass="java.util.Map">
+	BEGIN   
+         UPDATE supplies3 a
+   	     SET ACTUAL_COUNT =
+            ACTUAL_COUNT
+          + (SELECT #quantity# - quantity
+               FROM SUPPLIES_STOCKS3 b
+              WHERE stock_id = to_number(#stockId#))
+ 		 WHERE supply_id = #suppId#;
+ 		 
+ 		 UPDATE SUPPLIES_STOCKS3
+  		 SET date_added  =TO_DATE (#dateAdd#,'YYYY-MM-DD'),
+  		 purchase_date = TO_DATE (#purDate#,'YYYY-MM-DD'),
+ 		 reference_no = #refNo#,
+  		 quantity = #quantity#,
+  		 last_user =  #userId#,
+	  	 last_update =TRUNC (SYSDATE) 
+  		 where stock_id = to_number(#stockId#);
+	END;
+	</procedure>
+	
+	<resultMap id="allStockMap" class="UserClass">
+		<result column="stock_id" property="stockId" />
+		<result column="supply_id" property="suppId" />
+		<result column="date_Add" property="dateAdd" />
+		<result column="purchase_Date" property="purDate" />
+		<result column="reference_no" property="refNo" />
+		<result column="quantity" property="quantity" />
+		<result column="last_user" property="updateBy" />
+		<result column="lastUpdate" property="updateLast" />
+		<result column="item_name" property="itemName" />
+	</resultMap>
+	<select id="getAllStock" resultMap="allStockMap">
+		SELECT LPAD(a.stock_id,6,'0') stock_id,
+		a.supply_id,
+		TO_CHAR(a.date_added,'MM/DD/YYYY') as date_Add,
+		TO_CHAR (a.purchase_date,'MM/DD/YYYY') as purchase_Date,
+		a.reference_no,
+		a.quantity,
+		a.last_user,
+		TO_CHAR (a.last_update,'MM/DD/YYYY') as lastUpdate,
+		b.item_name
+		FROM SUPPLIES_STOCKS3 a, supplies3 b
+		WHERE
+		a.supply_id = b.SUPPLY_ID
+		order by a.stock_id
+	</select>
+</sqlMap>

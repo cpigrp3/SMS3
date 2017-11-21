@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sqlmap-2.dtd">
+
+<sqlMap namespace="UserLogin">
+	<select id= "validateLogin" resultClass = "java.lang.String">
+		SELECT NVL((SELECT DECODE(active_Tag, 'N', active_Tag, DECODE(password, #password#, active_Tag, 'U')) 
+			FROM sms_users3
+		WHERE user_id = #userName#), 'I') as tag FROM DUAL
+	</select>
+	
+	<select id= "getUsername" resultClass = "java.lang.String">
+		SELECT first_name ||' '||middle_initial||' '||last_name
+			FROM sms_users3
+		WHERE user_id = #userName#
+	</select>
+	
+	<select id= "getUserlevel" resultClass = "java.lang.String">
+		SELECT access_level
+			FROM sms_users3
+		WHERE user_id = #userName#	
+	</select>
+	
+	<procedure id = "updateActiveTag" parameterClass = "java.util.Map">
+		BEGIN 
+			UPDATE sms_users3
+				SET	active_Tag = 'N'
+				WHERE USER_ID = #userName#;
+		END;
+	</procedure>
+	
+	
+</sqlMap>

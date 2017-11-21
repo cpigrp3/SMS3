@@ -1,4 +1,4 @@
-<div class="btn-group-vertical btn-grp">
+<div class="btn-group-horizontal btn-grp">
    <button type="button" class="btn btn-danger" id="btnSideUser">USER</button>
    <button type="button" class="btn btn-info" id="btnSideTypes">SUPPLY TYPES</button>
    <button type="button" class="btn btn-info" id="btnSideSupplies">SUPPLIES</button>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sqlmap-2.dtd">
+<sqlMap namespace = "SupplyTypes">
+	
+	<select id = "stNextValId" resultClass = "java.lang.Integer">
+		SELECT supp_id_type_seq_grp3.nextVal
+		  FROM dual
+	</select>
+	
+	<procedure id = "saveRec" parameterClass="java.util.Map">
+		BEGIN
+			INSERT INTO supply_types3(supply_type_id, type_name, entry_date, last_user, last_update)
+			VALUES(#supplyTypeId#, #supplyTypeName#, trunc(SYSDATE), #loginUser#, trunc(SYSDATE));
+		END;
+	</procedure>
+	
+	<procedure id = "updateRec" parameterClass="java.util.Map">
+		BEGIN
+			UPDATE supply_types3
+			   SET type_name = #supplyTypeName#,
+			   	   last_user = #loginUser#,
+			   	   last_update = trunc(SYSDATE)
+			 WHERE supply_type_id = #supplyTypeId#;
+		END;
+	</procedure>
+	
+	<typeAlias alias = "SupplyTypesClass" type = "com.entity.SupplyTypes" />
+	
+	<resultMap id="allSupplyTypesMap" class = "SupplyTypesClass">
+		<result column = "supply_type_id" property = "id" />
+		<result column = "type_name" property = "name" />
+		<result column = "entry_date" property = "entryDate" />
+		<result column = "last_user" property = "lastUser" />
+		<result column = "last_update" property = "lastUpdate" />
+	</resultMap>
+	
+	<resultMap id="TypeNameMap" class = "SupplyTypesClass">
+		<result column = "type_name" property = "name" />
+	</resultMap>
+	
+	<select id="getAllSupplyTypes" resultMap = "allSupplyTypesMap">
+		SELECT lpad(supply_type_id, 4,0) supply_type_id, type_name, to_char(entry_date, 'MM/DD/YYYY') entry_date, last_user, to_char(last_update, 'MM/DD/YYYY') last_update
+		  FROM supply_types3
+		 ORDER BY 1
+	</select>
+	
+	<select id = "validateTypeName" resultMap = "TypeNameMap">
+		SELECT type_name
+		  FROM supply_types3
+		 WHERE lower(type_name) = lower(#supplyTypeName#)
+	</select>
+	
+</sqlMap>
